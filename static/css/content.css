@@ -1,0 +1,27 @@
+body {
+    margin: 0;
+  }
+  .masthead {
+    height: 65vh;
+    min-height: 250px;
+    background: center center no-repeat fixed/cover;
+    margin-top: 5.5em;
+  }
+  
+  .blog-content {
+    min-height: 40vh;
+  }
+  .section-title {
+    font-size: 2em;
+    margin-top: -1em;
+  }
+  .section-content {
+    font-size: 18px;
+    line-height: 2em;
+  }
+  
+  @media (max-width: 767px) {
+    .masthead {
+      background-attachment: initial;
+    }
+  }

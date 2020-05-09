@@ -3,6 +3,7 @@ html body {
     width: 100vw;
   }
   .masthead {
+    /* hello */
     height: 90vh;
     min-height: 350px;
     background-image: url("../images/bluebg.jpg");

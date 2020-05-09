@@ -1,21 +1,52 @@
 package main
 
 import (
+	"html/template"
 	"log"
 	"net/http"
+
+	"github.com/gorilla/mux"
+)
+
+const (
+	//PORT web port
+	PORT = "80"
 )
 
 func main() {
-	webserver := http.FileServer(http.Dir("./static"))
-	http.Handle("/", webserver)
+	r := mux.NewRouter()
 
-	// fileserver := http.FileServer(http.Dir("./images/logo.png"))
+	r.PathPrefix("/static/css").Handler(http.StripPrefix("/static/css",
+		http.FileServer(http.Dir("./static/css"))))
+	r.PathPrefix("/static/images").Handler(http.StripPrefix("/static/images",
+		http.FileServer(http.Dir("./static/images"))))
 
-	// http.Handle("images/", fileserver)
+	r.HandleFunc("/", indexHandler).Methods("GET")
+	r.HandleFunc("/content", contentHandler).Methods("GET")
 
-	log.Println("Listening on :80...")
-	err := http.ListenAndServe(":80", nil)
+	http.Handle("/", r)
+	err := http.ListenAndServe(":"+PORT, nil)
+
 	if err != nil {
 		log.Fatal(err)
+		return
 	}
+	log.Println("listening and serving on port :" + PORT)
+}
+
+func indexHandler(w http.ResponseWriter, r *http.Request) {
+	template, _ := template.ParseFiles("./templates/index.html")
+
+	template.Execute(w, nil)
+}
+
+func contentHandler(w http.ResponseWriter, r *http.Request) {
+	template, _ := template.ParseFiles("./templates/content.html")
+
+	template.Execute(w, nil)
+}
+
+//Sajak content of blog
+type Sajak struct {
+	Title, Content string
 }
