@@ -5,6 +5,7 @@ body {
     height: 65vh;
     min-height: 250px;
     background: center center no-repeat fixed/cover;
+    background-image: url("../images/bluebg.jpg");
     margin-top: 5.5em;
   }
   
@@ -13,7 +14,6 @@ body {
   }
   .section-title {
     font-size: 2em;
-    margin-top: -1em;
   }
   .section-content {
     font-size: 18px;

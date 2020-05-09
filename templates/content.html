@@ -67,13 +67,12 @@
     <!-- TODO change to Go-tenplate -->
     <header
       class="masthead"
-      th:style="'background-image:url(' + ${post.getThumbnailURL()} + ');'"
     >
       <div class="container h-100">
         <div class="row h-100 align-items-center">
           <div class="col-12 text-center header">
-            <div class="jumbotron rounded" style="background-color: #ffffffd3;">
-              <h2 class="font-weight-light">Sajak</h2>
+            <div class="jumbotron rounded" style="background-color: rgba(255, 255, 255, 0.062);">
+              <h2 class="font-weight-light">{{.Title}}</h2>
               <h1 class="font-weight-light" th:text="${post.getTitle()}"></h1>
             </div>
           </div>
@@ -81,32 +80,16 @@
       </div>
     </header>
 
-    <div class="blog-content container bg-light shadow border-bottom p-o">
+    <div class="blog-content container bg-light shadow border-bottom p-o mt-3">
       <div class="p-4" th:each=" section : ${post.getSections()}">
         <p
-          class="lead font-weight-bold section-title"
-          th:text="${section.getTitle()}"
-        >
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nostrum,
-          totam!
-        </p>
-        <p
           class="font-weight-light section-content"
-          th:text="${section.getContent()}"
         >
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati eos
-          maiores est animi eligendi aut, dignissimos nostrum vitae accusamus
-          quo at. Error cumque voluptatibus explicabo ducimus praesentium
-          necessitatibus! Eaque possimus rem praesentium exercitationem ex
-          voluptatibus impedit voluptatem nulla? Ipsa quae error accusantium
-          fuga molestias velit quidem magnam ullam magni asperiores, voluptatem
-          non sunt! Sit molestiae libero officiis corporis, accusamus odio
-          corrupti molestias modi eligendi perferendis officia recusandae
-          maiores quidem id, quo tenetur, dolores similique ipsam ipsa expedita!
-          Ea pariatur quia sint eius maiores consectetur sit aliquid nihil nulla
-          amet odit neque aperiam, autem nostrum blanditiis voluptatem
-          architecto quaerat labore eos.
-        </p>
+        {{range .Verses}}
+         <p>
+           {{.}}
+         </p>
+        {{end}}
       </div>
     </div>
 
