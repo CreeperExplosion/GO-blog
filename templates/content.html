@@ -65,15 +65,15 @@
 
     <!-- END of navbar -->
     <!-- TODO change to Go-tenplate -->
-    <header
-      class="masthead"
-    >
+    <header class="masthead">
       <div class="container h-100">
         <div class="row h-100 align-items-center">
           <div class="col-12 text-center header">
-            <div class="jumbotron rounded" style="background-color: rgba(255, 255, 255, 0.062);">
-              <h2 class="font-weight-light">{{.Title}}</h2>
-              <h1 class="font-weight-light" th:text="${post.getTitle()}"></h1>
+            <div
+              class="jumbotron rounded"
+              style="background-color: rgba(255, 255, 255, 0);"
+            >
+              <h1 class="font-weight-light text-uppercase">{{.Content.Title}}</h1>
             </div>
           </div>
         </div>
@@ -82,13 +82,14 @@
 
     <div class="blog-content container bg-light shadow border-bottom p-o mt-3">
       <div class="p-4" th:each=" section : ${post.getSections()}">
-        <p
-          class="font-weight-light section-content"
-        >
-        {{range .Verses}}
-         <p>
-           {{.}}
-         </p>
+        <p class="font-weight-light section-content">
+          {{range .Content.Verses}}
+        </p>
+
+        <p>
+          {{.}}
+          <br />
+        </p>
         {{end}}
       </div>
     </div>
@@ -103,40 +104,40 @@
         </p>
       </header>
       <hr />
-      <form action="#" method="post" class="form-group">
-        <label for="comment-name"> Your name (optional) : </label>
-        <input
-          type="text"
-          name="comment-name"
-          id="comment-name"
+      <form action="#" method="POST" class="form-group" id="CommentForm">
+        <label for="name"> Your name (optional) : </label>
+        <input type="text" name="name" id="name" class="form-control" />
+        <label for="coment">Say something:</label>
+        <textarea
           class="form-control"
-        />
-        <label for="comment">Say something:</label>
-        <textarea class="form-control" rows="5" id="comment"></textarea>
+          rows="5"
+          name="comment"
+          form="CommentForm"
+        ></textarea>
         <button class="btn btn-outline-primary btn-block mt-2">Submit</button>
       </form>
-      <div class="mb-5" th:each=" comment : ${comments}">
+
+      <!-- Comments -->
+      
+      <div class="mb-5">
+        {{range .Comments}}
         <hr />
         <p class="lead">
-          <span th:text="${comment.getName()}">user</span>
+          <span>{{.Name}}</span>
         </p>
         <p
           class="bg-white rounded p-3 ml-2 mr-2"
-          th:text="${comment.getContent()}"
-        ></p>
-        <p
-          class="text-weight-light text-muted small text-right"
-          th:text="${#calendars.format(comment.getDate(),'dd MMMM yyyy')}"
-        >
-          date
-        </p>
+        >{{.CommentContent}}</p>
+        {{end}}
       </div>
     </div>
-
+   
     <footer th:replace="fragments/everywhere.html :: footer"></footer>
     <div th:replace="fragments/bootstrap.html :: js"></div>
-  </body>
+  </body> 
 
+  <!--  -->
+  <!--  -->
   <!-- FOOTER -->
   <footer
     class="page-footer font-small bg-dark mb-0"
