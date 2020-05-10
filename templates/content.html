@@ -73,7 +73,9 @@
               class="jumbotron rounded"
               style="background-color: rgba(255, 255, 255, 0);"
             >
-              <h1 class="font-weight-light text-uppercase">{{.Content.Title}}</h1>
+              <h1 class="font-weight-light text-uppercase">
+                {{.Content.Title}}
+              </h1>
             </div>
           </div>
         </div>
@@ -96,112 +98,130 @@
 
     <!-- COMMENT SECTION -->
 
-    <div class="comment-section bg-light container mt-5 p-3 mb-5">
-      <header>
+    <div class="comment-section bg-light container mt-5 p-3 mb-5" id="CommentSection">
+      <header class="ml-1">
         <h4>Comments</h4>
         <p class="font-weight-light">
-          Comment away my fellow people. <small><b>no need to login</b></small>
+          no need to login
         </p>
       </header>
       <hr />
-      <form action="#" method="POST" class="form-group" id="CommentForm">
-        <label for="name"> Your name (optional) : </label>
-        <input type="text" name="name" id="name" class="form-control" />
-        <label for="coment">Say something:</label>
-        <textarea
-          class="form-control"
-          rows="5"
-          name="comment"
-          form="CommentForm"
-        ></textarea>
-        <button class="btn btn-outline-primary btn-block mt-2">Submit</button>
+      <!-- Comment form -->
+      <!--  -->
+      <form action="#CommentSection" method="POST" class="form-group" id="CommentForm">
+        <div class="row">
+          <div class="col-sm-12 col-md-3 mt-1">
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Name (optional)"
+              class="form-control"
+            />
+          </div>
+          <div class="col-sm-12 col-md-9 mt-1">
+            <textarea
+              type="text"
+              id="comment"
+              name="comment"
+              placeholder="Say Something"
+              class="form-control"
+              rows="1"
+            ></textarea>
+          </div>
+        </div>
+        <div class="row ml-1 mr-1 mt-2">
+          <div class="col-md-10 col-sm-6"></div>
+          <button class="col-md-2 col-sm-6 btn btn-outline-primary btn-block">
+            Submit
+          </button>
+        </div>
+        <!--  -->
+        <!--  -->
       </form>
 
       <!-- Comments -->
-      
-      <div class="mb-5">
-        {{range .Comments}}
-        <hr />
-        <p class="lead">
+
+      {{range .Comments}}
+      <hr />
+      <div class="row mb-3 p-3">
+        <p class="lead col-sm-12 col-md-2 col-lg-1 pt-3 comment-name">
           <span>{{.Name}}</span>
         </p>
-        <p
-          class="bg-white rounded p-3 ml-2 mr-2"
-        >{{.CommentContent}}</p>
-        {{end}}
+        <p class="bg-white rounded p-3 col-sm-12 col-md-10 col-lg-11">
+          {{.CommentContent}}
+        </p>
       </div>
+      {{end}}
     </div>
-   
-    <footer th:replace="fragments/everywhere.html :: footer"></footer>
-    <div th:replace="fragments/bootstrap.html :: js"></div>
-  </body> 
 
-  <!--  -->
-  <!--  -->
-  <!-- FOOTER -->
-  <footer
-    class="page-footer font-small bg-dark mb-0"
-    style="color: #e9ecef; padding-bottom: 4em; padding-top: 4em;"
-  >
-    <div class="container text-center text-md-center">
-      <!-- Grid row -->
-      <div class="row">
-        <!-- Grid column -->
-        <div class="col-md-6 mt-md-0 mt-3">
-          <!-- Content -->
-          <h5 class="text-uppercase">It seems like this is the end</h5>
-          <p>
-            i know. i know you want more.
+    <!--  -->
+    <!--  -->
+    <!-- FOOTER -->
+    <footer
+      class="page-footer font-small bg-dark mb-0"
+      style="color: #e9ecef; padding-bottom: 4em; padding-top: 4em;"
+    >
+      <div class="container text-center text-md-center">
+        <!-- Grid row -->
+        <div class="row">
+          <!-- Grid column -->
+          <div class="col-md-6 mt-md-0 mt-3">
+            <!-- Content -->
+            <h5 class="text-uppercase">It seems like this is the end</h5>
+            <p>
+              i know. i know you want more.
 
-            <small
-              >someday there'll be more !
-              <span class="badge badge-light p-1">i promise</span></small
-            >
-          </p>
+              <small
+                >someday there'll be more !
+                <span class="badge badge-light p-1">i promise</span></small
+              >
+            </p>
+          </div>
+          <!-- Grid column -->
+
+          <hr class="clearfix w-100 d-md-none pb-3" />
+
+          <!-- Grid column -->
+          <div class="col-md-3 mb-md-0 mb-3">
+            <!-- Links -->
+            <h5 class="text-uppercase">here is a few things to do!</h5>
+
+            <ul class="list-unstyled">
+              <li>
+                <a style="color: #008689;" href="https://github.com/explore"
+                  >browse GitHub</a
+                >
+              </li>
+              <li>
+                <a
+                  style="color: #008689;"
+                  href="https://www.youtube.com/?feature=ytca"
+                  >Watch Youtube</a
+                >
+              </li>
+              <li>
+                <a style="color: #008689;" href="https://www.reddit.com"
+                  >Read reddit</a
+                >
+              </li>
+              <li>
+                <a
+                  style="color: #008689;"
+                  href="https://www.youtube.com/channel/UC-lHJZR3Gqxm24_Vd_AJ5Yw"
+                  >SUB to pewdiepie</a
+                >
+              </li>
+            </ul>
+          </div>
+          <!-- Grid column -->
         </div>
-        <!-- Grid column -->
-
-        <hr class="clearfix w-100 d-md-none pb-3" />
-
-        <!-- Grid column -->
-        <div class="col-md-3 mb-md-0 mb-3">
-          <!-- Links -->
-          <h5 class="text-uppercase">here is a few things to do!</h5>
-
-          <ul class="list-unstyled">
-            <li>
-              <a style="color: #008689;" href="https://github.com/explore"
-                >browse GitHub</a
-              >
-            </li>
-            <li>
-              <a
-                style="color: #008689;"
-                href="https://www.youtube.com/?feature=ytca"
-                >Watch Youtube</a
-              >
-            </li>
-            <li>
-              <a style="color: #008689;" href="https://www.reddit.com"
-                >Read reddit</a
-              >
-            </li>
-            <li>
-              <a
-                style="color: #008689;"
-                href="https://www.youtube.com/channel/UC-lHJZR3Gqxm24_Vd_AJ5Yw"
-                >SUB to pewdiepie</a
-              >
-            </li>
-          </ul>
-        </div>
-        <!-- Grid column -->
+        <!-- Grid row -->
       </div>
-      <!-- Grid row -->
-    </div>
-    <!-- Footer Links -->
-  </footer>
-  <!-- FOOTER ends -->
+      <!-- Footer Links -->
+    </footer>
+    <!-- FOOTER ends -->
+  </body>
 
   <script
     src="https://code.jquery.com/jquery-3.4.1.slim.min.js"

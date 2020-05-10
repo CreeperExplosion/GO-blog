@@ -20,11 +20,13 @@ body {
     line-height: 2em;
   }
 
-
-
-
-  @media (max-width: 767px) {
+  @media (max-width: 768px) {
     .masthead {
       background-attachment: initial;
     }
+  }
+  @media (min-width: 768px){
+    .comment-name{
+      text-align: center;
+    } 
   }

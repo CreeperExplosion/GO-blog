@@ -33,12 +33,12 @@ func main() {
 	r.HandleFunc("/content/{id}", CommentHandler).Methods("POST")
 
 	http.Handle("/", r)
+	log.Println("listening and serving on port :" + PORT)
 	err := http.ListenAndServe(":"+PORT, nil)
 	if err != nil {
 		log.Fatal(err)
 		return
 	}
-	log.Println("listening and serving on port :" + PORT)
 }
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
@@ -57,14 +57,17 @@ func ContentHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil || err2 != nil {
 		fmt.Println(err)
 	}
-
-	fmt.Println(comments)
 	var page ContentPage
-	page = ContentPage{content, comments}
+	*comments = reverse(*comments)
+	page = ContentPage{*content, *comments}
 
 	template, tmplerr := template.ParseFiles("./templates/content.html")
-	fmt.Println(tmplerr)
-	template.Execute(w, page)
+
+	if tmplerr != nil {
+		log.Fatal(tmplerr)
+	} else {
+		template.Execute(w, page)
+	}
 }
 
 func CommentHandler(w http.ResponseWriter, r *http.Request) {
@@ -77,17 +80,18 @@ func CommentHandler(w http.ResponseWriter, r *http.Request) {
 	if c.Name == "" {
 		c.Name = "anon"
 	}
+
 	if c.CommentContent != "" {
 		WriteComment(c, id)
 	}
 	http.Redirect(w, r, r.URL.Path, 302)
 }
 
-func ReadContent(fn string) (Content, error) {
+func ReadContent(fn string) (*Content, error) {
 	f, err := os.Open("./contents/" + fn + ContentFile)
 	if err != nil {
 		f.Close()
-		return Content{}, err
+		return nil, err
 	}
 	scanner := bufio.NewScanner(f)
 	scanner.Split(bufio.ScanLines)
@@ -104,7 +108,7 @@ func ReadContent(fn string) (Content, error) {
 	sajak := Content{title, verses}
 
 	f.Close()
-	return (sajak), err
+	return (&sajak), err
 }
 
 func WriteComment(c Comment, id string) {
@@ -124,14 +128,14 @@ func WriteComment(c Comment, id string) {
 		text += "{cm}\n"
 	}
 
-	text = text + c.Name + "\n{seg}\n" + c.CommentContent + "\n"
+	text = text + c.Name + " {seg} " + c.CommentContent + "\n"
 	fmt.Println(text)
 	if _, err = f.WriteString(text); err != nil {
 		panic(err)
 	}
 }
 
-func ReadComments(id string) ([]Comment, error) {
+func ReadComments(id string) (*[]Comment, error) {
 	f, err := os.Open("./comments/" + id + CommentFile)
 	if err != nil {
 		f.Close()
@@ -161,7 +165,14 @@ func ReadComments(id string) ([]Comment, error) {
 		comments = append(comments, Comment{spltComms[0], spltComms[1]})
 	}
 
-	return comments, nil
+	return &comments, nil
+}
+func reverse(n []Comment) []Comment {
+	for i := 0; i < len(n)/2; i++ {
+		j := len(n) - i - 1
+		n[i], n[j] = n[j], n[i]
+	}
+	return n
 }
 
 type ContentPage struct {
