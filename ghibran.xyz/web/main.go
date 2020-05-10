@@ -1,23 +1,19 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"html/template"
-	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
-	"strings"
 
 	"github.com/gorilla/mux"
+
+	"ghibran.xyz/blogdata"
 )
 
 const (
 	//PORT web port
-	PORT        = "80"
-	ContentFile = ".ct"
-	CommentFile = ".cm"
+	PORT = "80"
 )
 
 func main() {
@@ -42,7 +38,7 @@ func main() {
 }
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
-	template, _ := template.ParseFiles("./templates/index.html")
+	template, _ := template.ParseFiles("/templates/index.html")
 
 	template.Execute(w, nil)
 }
@@ -52,14 +48,19 @@ func ContentHandler(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	id := params["id"]
 
-	content, err := ReadContent(id)
-	comments, err2 := ReadComments(id)
+	content, err := blogdata.ReadContent(id)
+	comments, err2 := blogdata.ReadComments(id)
 	if err != nil || err2 != nil {
 		fmt.Println(err)
 	}
-	var page ContentPage
-	*comments = reverse(*comments)
-	page = ContentPage{*content, *comments}
+	var page blogdata.ContentPage
+
+
+	if(comments != nil){
+		*comments = reverse(*comments)
+	}
+
+	page = blogdata.ContentPage{Content: *content, Comments: *comments}
 
 	template, tmplerr := template.ParseFiles("./templates/content.html")
 
@@ -75,118 +76,22 @@ func CommentHandler(w http.ResponseWriter, r *http.Request) {
 	id := params["id"]
 	r.ParseForm()
 
-	c := Comment{r.Form["name"][0], r.Form["comment"][0]}
+	c := blogdata.Comment{Name: r.Form["name"][0], CommentContent: r.Form["comment"][0]}
 
 	if c.Name == "" {
 		c.Name = "anon"
 	}
 
 	if c.CommentContent != "" {
-		WriteComment(c, id)
+		blogdata.WriteComment(c, id)
 	}
 	http.Redirect(w, r, r.URL.Path, 302)
 }
 
-func ReadContent(fn string) (*Content, error) {
-	f, err := os.Open("./contents/" + fn + ContentFile)
-	if err != nil {
-		f.Close()
-		return nil, err
-	}
-	scanner := bufio.NewScanner(f)
-	scanner.Split(bufio.ScanLines)
-	var text []string
-	for scanner.Scan() {
-		text = append(text, scanner.Text())
-	}
-	s := strings.Join(text, "\n")
-
-	title := strings.Split(s, "{seg}")[0]
-	content := strings.Split(s, "{seg}")[1]
-	verses := strings.Split(content, "{n}")
-
-	sajak := Content{title, verses}
-
-	f.Close()
-	return (&sajak), err
-}
-
-func WriteComment(c Comment, id string) {
-
-	filename := "./comments/" + id + CommentFile
-	f, err := os.OpenFile(filename, os.O_APPEND|os.O_WRONLY, 0600)
-	if err != nil {
-		ioutil.WriteFile(filename, nil, 0600)
-		f, err = os.OpenFile(filename, os.O_APPEND|os.O_WRONLY, 0600)
-	}
-	defer f.Close()
-	text := ""
-
-	info, _ := os.Stat(filename)
-
-	if info.Size() > 0 {
-		text += "{cm}\n"
-	}
-
-	text = text + c.Name + " {seg} " + c.CommentContent + "\n"
-	fmt.Println(text)
-	if _, err = f.WriteString(text); err != nil {
-		panic(err)
-	}
-}
-
-func ReadComments(id string) (*[]Comment, error) {
-	f, err := os.Open("./comments/" + id + CommentFile)
-	if err != nil {
-		f.Close()
-		return nil, err
-	}
-	scanner := bufio.NewScanner(f)
-	scanner.Split(bufio.ScanLines)
-
-	info, _ := os.Stat("./comments/" + id + CommentFile)
-	if info.Size() == 0 {
-		return nil, nil
-	}
-
-	var text []string
-	for scanner.Scan() {
-		text = append(text, scanner.Text())
-	}
-	f.Close()
-	s := strings.Join(text, "\n")
-
-	rawComments := strings.Split(s, "{cm}")
-
-	var comments []Comment
-
-	for _, comm := range rawComments {
-		spltComms := strings.Split(comm, "{seg}")
-		comments = append(comments, Comment{spltComms[0], spltComms[1]})
-	}
-
-	return &comments, nil
-}
-func reverse(n []Comment) []Comment {
+func reverse(n []blogdata.Comment) []blogdata.Comment {
 	for i := 0; i < len(n)/2; i++ {
 		j := len(n) - i - 1
 		n[i], n[j] = n[j], n[i]
 	}
 	return n
-}
-
-type ContentPage struct {
-	Content  Content
-	Comments []Comment
-}
-
-//Content is a poetry consists of Title and Verses
-type Content struct {
-	Title  string
-	Verses []string
-}
-
-type Comment struct {
-	Name           string
-	CommentContent string
 }
