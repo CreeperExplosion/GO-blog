@@ -5,6 +5,8 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"strconv"
+	"strings"
 
 	"github.com/gorilla/mux"
 
@@ -16,19 +18,16 @@ const (
 	PORT = "80"
 )
 
+var router *mux.Router
+
 func main() {
-	r := mux.NewRouter()
+	router = mux.NewRouter()
 
-	r.PathPrefix("/static/css").Handler(http.StripPrefix("/static/css",
-		http.FileServer(http.Dir("./static/css"))))
-	r.PathPrefix("/static/images").Handler(http.StripPrefix("/static/images",
-		http.FileServer(http.Dir("./static/images"))))
+	ServeStatic()
 
-	r.HandleFunc("/", IndexHandler).Methods("GET")
-	r.HandleFunc("/content/{id}", ContentHandler).Methods("GET")
-	r.HandleFunc("/content/{id}", CommentHandler).Methods("POST")
+	ServePage()
 
-	http.Handle("/", r)
+	http.Handle("/", router)
 	log.Println("listening and serving on port :" + PORT)
 	err := http.ListenAndServe(":"+PORT, nil)
 	if err != nil {
@@ -37,28 +36,46 @@ func main() {
 	}
 }
 
-func IndexHandler(w http.ResponseWriter, r *http.Request) {
-	template, _ := template.ParseFiles("/templates/index.html")
-
-	template.Execute(w, nil)
+func ServeStatic() {
+	router.PathPrefix("/static/css").Handler(http.StripPrefix("/static/css",
+		http.FileServer(http.Dir("./static/css"))))
+	router.PathPrefix("/static/images").Handler(http.StripPrefix("/static/images",
+		http.FileServer(http.Dir("./static/images"))))
 }
 
-// Handles sajak according to id
+func ServePage() {
+	router.HandleFunc("/", IndexHandler).Methods("GET")
+	router.HandleFunc("/content/{id}", ContentHandler).Methods("GET")
+	router.HandleFunc("/content/{id}", CommentHandler).Methods("POST")
+	router.HandleFunc("/admin", AdminHandler).Methods("GET")
+	router.HandleFunc("/admin", AdminPostHandler).Methods("POST")
+}
+
+func IndexHandler(w http.ResponseWriter, r *http.Request) {
+	template, err := template.ParseFiles("./templates/index.html")
+	if err != nil {
+		log.Fatal(err)
+	} else {
+		template.Execute(w, nil)
+	}
+
+}
+
 func ContentHandler(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	id := params["id"]
 
-	content, err := blogdata.ReadContent(id)
-	comments, err2 := blogdata.ReadComments(id)
-	if err != nil || err2 != nil {
-		fmt.Println(err)
+	content, contenterr := blogdata.ReadContent(id)
+	comments, _ := blogdata.ReadComments(id)
+
+	if contenterr != nil {
+		fmt.Println(contenterr)
+		return
 	}
+
 	var page blogdata.ContentPage
 
-
-	if(comments != nil){
-		*comments = reverse(*comments)
-	}
+	*comments = blogdata.Reverse(*comments)
 
 	page = blogdata.ContentPage{Content: *content, Comments: *comments}
 
@@ -76,22 +93,40 @@ func CommentHandler(w http.ResponseWriter, r *http.Request) {
 	id := params["id"]
 	r.ParseForm()
 
-	c := blogdata.Comment{Name: r.Form["name"][0], CommentContent: r.Form["comment"][0]}
+	name, comment := r.Form["name"][0], r.Form["comment"][0]
 
-	if c.Name == "" {
-		c.Name = "anon"
+	if comment == "" {
+		http.Redirect(w, r, r.URL.Path, 302)
 	}
 
-	if c.CommentContent != "" {
-		blogdata.WriteComment(c, id)
+	if name == "" {
+		name = "Anon"
 	}
+
+	c := blogdata.Comment{Name: name, CommentContent: comment}
+	blogdata.WriteComment(c, id)
 	http.Redirect(w, r, r.URL.Path, 302)
 }
 
-func reverse(n []blogdata.Comment) []blogdata.Comment {
-	for i := 0; i < len(n)/2; i++ {
-		j := len(n) - i - 1
-		n[i], n[j] = n[j], n[i]
+func AdminHandler(w http.ResponseWriter, r *http.Request) {
+	template, err := template.ParseFiles("./templates/admin.html")
+
+	if err != nil {
+		log.Fatal(err)
 	}
-	return n
+	template.Execute(w, nil)
+}
+func AdminPostHandler(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+
+	form := r.Form
+	content := form["content"][0]
+	title := form["title"][0]
+
+	fmt.Println(content)
+	c := &blogdata.Content{Title: title, Verses: strings.Split(content, "\n")}
+
+	id := blogdata.WriteContent(c)
+
+	http.Redirect(w, r, "/content/"+strconv.Itoa(id), 302)
 }

@@ -38,18 +38,17 @@ func WriteComment(c Comment, id string) {
 
 func ReadComments(id string) (*[]Comment, error) {
 	f, err := os.Open("./comments/" + id + CommentFile)
-	
+
 	if err != nil {
-		fmt.Println(err)
 		f.Close()
-		return nil, err
+		return &[]Comment{}, err
 	}
 	scanner := bufio.NewScanner(f)
 	scanner.Split(bufio.ScanLines)
 
 	info, _ := os.Stat("./comments/" + id + CommentFile)
 	if info.Size() == 0 {
-		return nil, nil
+		return &[]Comment{}, nil
 	}
 
 	var text []string

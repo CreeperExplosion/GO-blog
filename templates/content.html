@@ -11,7 +11,7 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="/static/css/content.css" />
-    <title>BLOG</title>
+    <title>{{.Content.Title}}</title>
   </head>
 
   <body>
@@ -56,7 +56,7 @@
 
           <ul class="navbar-nav">
             <li class="nav-item mr-4 ml-4">
-              <a href="/admin/landing" class="nav-link">Admin Page</a>
+              <a href="/admin" class="nav-link">Admin Page</a>
             </li>
           </ul>
         </div>
@@ -64,7 +64,6 @@
     </nav>
 
     <!-- END of navbar -->
-    <!-- TODO change to Go-tenplate -->
     <header class="masthead">
       <div class="container h-100">
         <div class="row h-100 align-items-center">
@@ -83,11 +82,10 @@
     </header>
 
     <div class="blog-content container bg-light shadow border-bottom p-o mt-3">
-      <div class="p-4" th:each=" section : ${post.getSections()}">
+      <div class="p-4">
         <p class="font-weight-light section-content">
           {{range .Content.Verses}}
         </p>
-
         <p>
           {{.}}
           <br />

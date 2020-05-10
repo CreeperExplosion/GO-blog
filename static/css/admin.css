@@ -1,0 +1,21 @@
+body {
+    margin: 0;
+    height: 100%;
+}
+
+.masthead {
+    height: 15vh;
+    min-height: 70px;
+    margin-top: 10em;
+}
+
+.admin-control {
+    min-height: 40vh;
+    padding: 0.95em;
+    margin-bottom: 5em;
+}
+
+.btn-primary {
+    width: 10em;
+    align-self: flex-end;
+}

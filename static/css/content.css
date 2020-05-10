@@ -1,32 +1,35 @@
 body {
-    margin: 0;
-  }
-  .masthead {
-    height: 65vh;
-    min-height: 250px;
-    background: center center no-repeat fixed/cover;
-    background-image: url("../images/bluebg.jpg");
-    margin-top: 5.5em;
-  }
-  
-  .blog-content {
-    min-height: 40vh;
-  }
-  .section-title {
-    font-size: 2em;
-  }
-  .section-content {
-    font-size: 18px;
-    line-height: 2em;
-  }
+  margin: 0;
+}
+.masthead {
+  height: 65vh;
+  min-height: 250px;
+  background: center center no-repeat fixed/cover;
+  background-image: url("../images/bluebg.jpg");
+  margin-top: 5.5em;
+}
 
-  @media (max-width: 768px) {
-    .masthead {
-      background-attachment: initial;
-    }
+.blog-content {
+  min-height: 40vh;
+}
+.section-title {
+  font-size: 2em;
+}
+.section-content {
+  font-size: 18px;
+  line-height: 2em;
+}
+
+@media (max-width: 768px) {
+  .masthead {
+    background-attachment: initial;
   }
-  @media (min-width: 768px){
-    .comment-name{
-      text-align: center;
-    } 
+}
+@media (min-width: 768px) {
+  .comment-name {
+    text-align: center;
   }
+}
+title{
+  text-transform: capitalize;
+}
