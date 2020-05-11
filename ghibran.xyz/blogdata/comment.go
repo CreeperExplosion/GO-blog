@@ -1,73 +1,56 @@
 package blogdata
 
 import (
-	"bufio"
+	"database/sql"
 	"fmt"
-	"io/ioutil"
-	"os"
-	"strings"
+	"log"
 )
 
 const (
 	CommentFile = ".cm"
 )
 
-func WriteComment(c Comment, id string) {
+func WriteComment(c Comment, id string, database *sql.DB) {
 
-	filename := "./comments/" + id + CommentFile
-	f, err := os.OpenFile(filename, os.O_APPEND|os.O_WRONLY, 0600)
-	if err != nil {
-		ioutil.WriteFile(filename, nil, 0600)
-		f, err = os.OpenFile(filename, os.O_APPEND|os.O_WRONLY, 0600)
+	queryCommand := "INSERT INTO comments (display_name , text, content_id) VALUES (?, ?, ?)"
+
+	prep, ierr := database.Prepare(queryCommand)
+
+	if ierr != nil {
+		log.Fatal(ierr)
 	}
-	defer f.Close()
-	text := ""
+	defer prep.Close()
 
-	info, _ := os.Stat(filename)
+	_, reserr := prep.Exec(c.Name, c.CommentContent, id)
 
-	if info.Size() > 0 {
-		text += "{cm}\n"
+	if reserr != nil {
+		log.Fatal(reserr)
+
 	}
 
-	text = text + c.Name + " {seg} " + c.CommentContent + "\n"
-	fmt.Println(text)
-	if _, err = f.WriteString(text); err != nil {
-		panic(err)
-	}
 }
 
-func ReadComments(id string) (*[]Comment, error) {
-	f, err := os.Open("./comments/" + id + CommentFile)
+func ReadComments(id string, database *sql.DB) (*[]Comment, error) {
+	comments := []Comment{}
+
+	queryCommand := fmt.Sprintf("SELECT display_name, text FROM comments WHERE content_id='%s'", id)
+
+	query, err := database.Query(queryCommand)
 
 	if err != nil {
-		f.Close()
-		return &[]Comment{}, err
-	}
-	scanner := bufio.NewScanner(f)
-	scanner.Split(bufio.ScanLines)
-
-	info, _ := os.Stat("./comments/" + id + CommentFile)
-	if info.Size() == 0 {
-		return &[]Comment{}, nil
+		fmt.Println(err)
+		return &comments, err
 	}
 
-	var text []string
-	for scanner.Scan() {
-		text = append(text, scanner.Text())
-	}
-	f.Close()
-	s := strings.Join(text, "\n")
+	for query.Next() {
+		var comment Comment
 
-	rawComments := strings.Split(s, "{cm}")
+		query.Scan(&comment.Name, &comment.CommentContent)
 
-	var comments []Comment
-
-	for _, comm := range rawComments {
-		spltComms := strings.Split(comm, "{seg}")
-		comments = append(comments, Comment{spltComms[0], spltComms[1]})
+		comments = append(comments, comment)
 	}
 
-	return &comments, nil
+	return &comments, err
 }
 
 type Comment struct {

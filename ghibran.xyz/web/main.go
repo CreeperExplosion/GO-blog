@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"html/template"
 	"log"
@@ -8,6 +9,7 @@ import (
 	"strconv"
 	"strings"
 
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
 
 	"ghibran.xyz/blogdata"
@@ -16,11 +18,25 @@ import (
 const (
 	//PORT web port
 	PORT = "80"
+
+	// database settings
+	DBUser     = "website"
+	DBPassword = "!WebsitePW"
+	DBIP       = "157.230.125.71"
+	DBName     = "websiteDB"
 )
 
 var router *mux.Router
+var database *sql.DB
 
 func main() {
+	connectionStr := fmt.Sprintf("%s:%s@tcp(%s)/%s", DBUser, DBPassword, DBIP, DBName)
+	database, _ = sql.Open("mysql", connectionStr)
+
+	dbError := database.Ping()
+	if dbError != nil {
+		log.Fatal(dbError)
+	}
 	router = mux.NewRouter()
 
 	ServeStatic()
@@ -65,8 +81,8 @@ func ContentHandler(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	id := params["id"]
 
-	content, contenterr := blogdata.ReadContent(id)
-	comments, _ := blogdata.ReadComments(id)
+	content, contenterr := blogdata.ReadContent(id, database)
+	comments, _ := blogdata.ReadComments(id, database)
 
 	if contenterr != nil {
 		fmt.Println(contenterr)
@@ -92,19 +108,16 @@ func CommentHandler(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	id := params["id"]
 	r.ParseForm()
-
 	name, comment := r.Form["name"][0], r.Form["comment"][0]
-
 	if comment == "" {
 		http.Redirect(w, r, r.URL.Path, 302)
 	}
-
 	if name == "" {
 		name = "Anon"
 	}
 
 	c := blogdata.Comment{Name: name, CommentContent: comment}
-	blogdata.WriteComment(c, id)
+	blogdata.WriteComment(c, id, database)
 	http.Redirect(w, r, r.URL.Path, 302)
 }
 
@@ -126,7 +139,7 @@ func AdminPostHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(content)
 	c := &blogdata.Content{Title: title, Verses: strings.Split(content, "\n")}
 
-	id := blogdata.WriteContent(c)
+	id := blogdata.WriteContent(c, database)
 
-	http.Redirect(w, r, "/content/"+strconv.Itoa(id), 302)
+	http.Redirect(w, r, "/content/"+strconv.FormatInt(id, 10), 302)
 }
