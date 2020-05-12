@@ -1,35 +1,44 @@
 body {
-  margin: 0;
+    margin: 0;
 }
+
 .masthead {
-  height: 65vh;
-  min-height: 250px;
-  background: center center no-repeat fixed/cover;
-  background-image: url("../images/bluebg.jpg");
-  margin-top: 5.5em;
+    height: 65vh;
+    min-height: 250px;
+    background: center center no-repeat fixed/cover;
+    background-image: url("../images/bluebg.jpg");
+    margin-top: 5.5em;
 }
 
 .blog-content {
-  min-height: 40vh;
+    min-height: 40vh;
 }
+
 .section-title {
-  font-size: 2em;
+    font-size: 2em;
 }
+
 .section-content {
-  font-size: 18px;
-  line-height: 2em;
+    font-size: 18px;
+    line-height: 2em;
+}
+
+.verse {
+    margin-top: -0.8em;
 }
 
 @media (max-width: 768px) {
-  .masthead {
-    background-attachment: initial;
-  }
+    .masthead {
+        background-attachment: initial;
+    }
 }
+
 @media (min-width: 768px) {
-  .comment-name {
-    text-align: center;
-  }
+    .comment-name {
+        text-align: center;
+    }
 }
-title{
-  text-transform: capitalize;
+
+title {
+    text-transform: capitalize;
 }

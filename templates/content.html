@@ -1,177 +1,138 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-      crossorigin="anonymous"
-    />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
     <link rel="stylesheet" href="/static/css/content.css" />
     <title>{{.Content.Title}}</title>
-  </head>
+</head>
 
-  <body>
+<body>
     <!-- navbar -->
 
-    <nav
-      class="navbar navbar-light bg-light navbar-expand-md pb-4 pt-4 shadow fixed-top"
-      style="opacity: 0.95;"
-    >
-      <div class="container">
-        <a class="navbar-brand mr-auto" href="/">
-          <img
-            src="/static/images/logo.png"
-            class="d-inline-block mr-2"
-            width="30"
-            height="30"
-            alt=""
-          />
-          <div class="d-inline-block mr-1">
-            Algebra's <span><b>PALACE</b></span>
-          </div>
-        </a>
-        <button
-          class="navbar-toggler"
-          data-toggle="collapse"
-          data-target="#navbarMenu"
-        >
+    <nav class="navbar navbar-light bg-light navbar-expand-md pb-4 pt-4 shadow fixed-top" style="opacity: 0.95;">
+        <div class="container">
+            <a class="navbar-brand mr-auto" href="/">
+                <img src="/static/images/logo.png" class="d-inline-block mr-2" width="30" height="30" alt="" />
+                <div class="d-inline-block mr-1">
+                    Algebra's <span><b>PALACE</b></span>
+                </div>
+            </a>
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarMenu">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item ml-4">
-              <a href="/" class="nav-link"> Home </a>
-            </li>
-            <li class="nav-item ml-4">
-              <a href="#" class="nav-link">Feeling lucky</a>
-            </li>
-            <li class="nav-item ml-4">
-              <a href="#" class="nav-link">My GitHub</a>
-            </li>
-          </ul>
+            <div class="collapse navbar-collapse" id="navbarMenu">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item ml-4">
+                        <a href="/" class="nav-link"> Home </a>
+                    </li>
+                    <li class="nav-item ml-4">
+                        <a href="#" class="nav-link">Feeling lucky</a>
+                    </li>
+                    <li class="nav-item ml-4">
+                        <a href="#" class="nav-link">My GitHub</a>
+                    </li>
+                </ul>
 
-          <ul class="navbar-nav">
-            <li class="nav-item mr-4 ml-4">
-              <a href="/admin" class="nav-link">Admin Page</a>
-            </li>
-          </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item mr-4 ml-4">
+                        <a href="/admin" class="nav-link">Admin Page</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-      </div>
     </nav>
 
     <!-- END of navbar -->
     <header class="masthead">
-      <div class="container h-100">
-        <div class="row h-100 align-items-center">
-          <div class="col-12 text-center header">
-            <div
-              class="jumbotron rounded"
-              style="background-color: rgba(255, 255, 255, 0);"
-            >
-              <h1 class="font-weight-light text-uppercase">
-                {{.Content.Title}}
-              </h1>
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-12 text-center header">
+                    <div class="jumbotron rounded" style="background-color: rgba(255, 255, 255, 0);">
+                        <h1 class="font-weight-light text-uppercase">
+                            {{.Content.Title}}
+                        </h1>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </header>
 
     <div class="blog-content container bg-light shadow border-bottom p-o mt-3">
-      <div class="p-4">
-        <p class="font-weight-light section-content">
-          {{range .Content.Verses}}
-        </p>
-        <p>
-          {{.}}
-          <br />
-        </p>
-        {{end}}
-      </div>
+        <div class="p-4">
+            {{range .Content.Verses}}
+            <p class="font-weight-light section-content verse">
+                {{.}}
+                <br />
+            </p>
+            {{end}}
+        </div>
     </div>
 
     <!-- COMMENT SECTION -->
 
     <div class="comment-section bg-light container mt-5 p-3 mb-5" id="CommentSection">
-      <header class="ml-1">
-        <h4>Comments</h4>
-        <p class="font-weight-light">
-          no need to login
-        </p>
-      </header>
-      <hr />
-      <!-- Comment form -->
-      <!--  -->
-      <form action="#CommentSection" method="POST" class="form-group" id="CommentForm">
-        <div class="row">
-          <div class="col-sm-12 col-md-3 mt-1">
-            <input
-              type="text"
-              id="name"
-              name="name"
-              placeholder="Name (optional)"
-              class="form-control"
-            />
-          </div>
-          <div class="col-sm-12 col-md-9 mt-1">
-            <textarea
-              type="text"
-              id="comment"
-              name="comment"
-              placeholder="Say Something"
-              class="form-control"
-              rows="1"
-            ></textarea>
-          </div>
-        </div>
-        <div class="row ml-1 mr-1 mt-2">
-          <div class="col-md-10 col-sm-6"></div>
-          <button class="col-md-2 col-sm-6 btn btn-outline-primary btn-block">
+        <header class="ml-1">
+            <h4>Comments</h4>
+            <p class="font-weight-light">
+                no need to login
+            </p>
+        </header>
+        <hr />
+        <!-- Comment form -->
+        <!--  -->
+        <form action="#CommentSection" method="POST" class="form-group" id="CommentForm">
+            <div class="row">
+                <div class="col-sm-12 col-md-3 mt-1">
+                    <input type="text" id="name" name="name" placeholder="Name (optional)" class="form-control" />
+                </div>
+                <div class="col-sm-12 col-md-9 mt-1">
+                    <textarea type="text" id="comment" name="comment" placeholder="Say Something" class="form-control" rows="1"></textarea>
+                </div>
+            </div>
+            <div class="row ml-1 mr-1 mt-2">
+                <div class="col-md-10 col-sm-6"></div>
+                <button class="col-md-2 col-sm-6 btn btn-outline-primary btn-block">
             Submit
           </button>
+            </div>
+            <!--  -->
+            <!--  -->
+        </form>
+
+        <!-- Comments -->
+
+        {{range .Comments}}
+        <hr />
+        <div class="row mb-3 p-3">
+            <p class="lead col-sm-12 col-md-2 col-lg-1 pt-3 comment-name text-muted">
+                <span>{{.Name}}</span>
+            </p>
+            <p class="bg-white rounded p-3 col-sm-12 col-md-10 col-lg-11 text-secondary">
+                {{.CommentContent}}
+            </p>
         </div>
-        <!--  -->
-        <!--  -->
-      </form>
-
-      <!-- Comments -->
-
-      {{range .Comments}}
-      <hr />
-      <div class="row mb-3 p-3">
-        <p class="lead col-sm-12 col-md-2 col-lg-1 pt-3 comment-name">
-          <span>{{.Name}}</span>
-        </p>
-        <p class="bg-white rounded p-3 col-sm-12 col-md-10 col-lg-11">
-          {{.CommentContent}}
-        </p>
-      </div>
-      {{end}}
+        {{end}}
     </div>
 
     <!--  -->
     <!--  -->
     <!-- FOOTER -->
-    <footer
-      class="page-footer font-small bg-dark mb-0"
-      style="color: #e9ecef; padding-bottom: 4em; padding-top: 4em;"
-    >
-      <div class="container text-center text-md-center">
-        <!-- Grid row -->
-        <div class="row">
-          <!-- Grid column -->
-          <div class="col-md-6 mt-md-0 mt-3">
-            <!-- Content -->
-            <h5 class="text-uppercase">It seems like this is the end</h5>
-            <p>
-              i know. i know you want more.
+    <footer class="page-footer font-small bg-dark mb-0" style="color: #e9ecef; padding-bottom: 4em; padding-top: 4em;">
+        <div class="container text-center text-md-center">
+            <!-- Grid row -->
+            <div class="row">
+                <!-- Grid column -->
+                <div class="col-md-6 mt-md-0 mt-3">
+                    <!-- Content -->
+                    <h5 class="text-uppercase">It seems like this is the end</h5>
+                    <p>
+                        i know. i know you want more.
 
-              <small
-                >someday there'll be more !
+                        <small>someday there'll be more !
                 <span class="badge badge-light p-1">i promise</span></small
               >
             </p>

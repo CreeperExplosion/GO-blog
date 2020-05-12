@@ -59,11 +59,35 @@ func WriteContent(c *Content, database *sql.DB) int64 {
 	return id
 }
 
+func GetFeed(num int, database *sql.DB) *[]Content {
+	contents := []Content{}
+
+	queryCommand := fmt.Sprintf("SELECT id, title, text FROM contents ORDER BY id DESC LIMIT %d", num)
+
+	query, err := database.Query(queryCommand)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer query.Close()
+
+	for query.Next() {
+		var content Content
+		s := ""
+		query.Scan(&content.Id, &content.Title, &s)
+		content.Verses = strings.Split(s, "{n}")[:3]
+		content.Verses = append(content.Verses, ".......")
+		contents = append(contents, content)
+	}
+
+	return &contents
+}
+
 type ContentPage struct {
 	Content  Content
 	Comments []Comment
 }
 type Content struct {
+	Id     int
 	Title  string
 	Verses []string
 }

@@ -8,4 +8,6 @@ __debug_bin
 #content file
 *.ct
 #comment file
-*.cm
+*.cm''
+
+log

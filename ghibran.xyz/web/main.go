@@ -69,11 +69,14 @@ func ServePage() {
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	template, err := template.ParseFiles("./templates/index.html")
+
+	feed := blogdata.GetFeed(7, database)
+
 	if err != nil {
 		log.Fatal(err)
-	} else {
-		template.Execute(w, nil)
 	}
+
+	template.Execute(w, feed)
 
 }
 
@@ -91,8 +94,6 @@ func ContentHandler(w http.ResponseWriter, r *http.Request) {
 
 	var page blogdata.ContentPage
 
-	*comments = blogdata.Reverse(*comments)
-
 	page = blogdata.ContentPage{Content: *content, Comments: *comments}
 
 	template, tmplerr := template.ParseFiles("./templates/content.html")
@@ -109,7 +110,7 @@ func CommentHandler(w http.ResponseWriter, r *http.Request) {
 	id := params["id"]
 	r.ParseForm()
 	name, comment := r.Form["name"][0], r.Form["comment"][0]
-	if comment == "" {
+	if comment == "" || strings.TrimSpace(comment) == "" {
 		http.Redirect(w, r, r.URL.Path, 302)
 	}
 	if name == "" {

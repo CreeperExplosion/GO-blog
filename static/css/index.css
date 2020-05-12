@@ -1,83 +1,70 @@
 html body {
     margin: 0;
     width: 100vw;
-  }
-  .masthead {
-    /* hello */
+}
+
+.masthead {
     height: 90vh;
     min-height: 350px;
     background-image: url("../images/bluebg.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-  }
-  
-  .post-header {
+}
+
+.post-header {
     padding-top: 3em;
     padding-bottom: 1em;
-  }
-  .post {
+}
+
+.post {
     text-align: center;
     margin: 2em auto;
-  }
-  
-  .carousel {
-    position: relative;
-  }
-  
-  ol.carousel-indicators {
-    position: absolute;
-    bottom: 0;
-    margin: 0;
-    left: 0;
-    right: 0;
-    /* background-color: #e9ecef; */
-    border-block: grey;
-    margin-top: -4px;
-  }
-  
-  ol.carousel-indicators li,
-  ol.carousel-indicators li.active {
-    background-color: #e9ecef;
-    margin-top: 2px;
-    float: left;
-    width: 15%;
-    height: 10px;
-    margin: 0;
-    border-radius: 0;
-    border: 0;
-    /* background: transparent; */
-  }
-  
-  ol.carousel-indicators li.active {
-    background: skyblue;
-  }
-  
-  .link-unstyled {
-    font-style: inherit;
-    color: inherit;
-    background-color: transparent;
-    font-size: inherit;
-    text-decoration: none;
-    font-variant: inherit;
-    font-weight: inherit;
-    line-height: inherit;
-    font-family: inherit;
-    border-radius: inherit;
-    border: inherit;
-    outline: inherit;
-    box-shadow: inherit;
-    padding: inherit;
-    vertical-align: inherit;
-  }
-  
-  .link-unstyled:hover {
+}
+
+.link-unstyled:hover {
     text-decoration: none;
     color: skyblue;
-  }
-  
-  @media only screen and (min-width: 768px) {
+}
+
+.feeds {
+    max-height: 80vh;
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+}
+
+.feeds::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+    /* Chrome/Safari/Webkit */
+}
+
+
+/* Track */
+
+.feeds::-webkit-scrollbar-track {
+    width: 0px;
+    background: transparent;
+}
+
+.feed {
+    min-height: 35vh;
+}
+
+@media only screen and (min-width: 768px) {
     .code {
-      min-width: 22em;
+        min-width: 22em;
     }
-  }
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+
+/* Track */
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
