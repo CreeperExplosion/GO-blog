@@ -66,12 +66,15 @@ func ServePage() {
 	router.HandleFunc("/", IndexHandler).Methods("GET")
 	router.HandleFunc("/content/{id}", ContentHandler).Methods("GET")
 	router.HandleFunc("/content/{id}", CommentHandler).Methods("POST")
+
+	//admin fucntionality
 	router.HandleFunc("/admin", AdminHandler).Methods("GET")
 	router.HandleFunc("/admin", AdminPostHandler).Methods("POST")
 	router.HandleFunc("/admin/edit", AdminEditHandler).Methods("GET")
 	router.HandleFunc("/admin/edit/{id}", PostEditHandler).Methods("GET")
 	router.HandleFunc("/admin/edit/{id}", EditPostHandler).Methods("POST")
-	router.HandleFunc("/admin/delete/{id}", DeletePostHandler).Methods("POST")
+
+	router.HandleFunc("/admin/delete", DeletePostHandler).Methods("POST")
 
 }
 
@@ -187,12 +190,11 @@ func PostEditHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func EditPostHandler(w http.ResponseWriter, r *http.Request) {
-	params := mux.Vars(r)
-	id := params["id"]
 
 	r.ParseForm()
 
 	form := r.Form
+	id := form["id"][0]
 	title := form["title"][0]
 	text := form["content"][0]
 
@@ -206,13 +208,14 @@ func EditPostHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeletePostHandler(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+	form := r.Form
+	id := form["id"][0]
 
-	params := mux.Vars(r)
-	id := params["id"]
-
-	fmt.Println("delete ?" + id)
 	blogdata.DeleteContent(id, database)
 
 	blogdata.DeleteComments(id, database)
+
+	http.Redirect(w, r, "/admin/edit", 302)
 
 }

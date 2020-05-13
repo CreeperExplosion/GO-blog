@@ -63,6 +63,7 @@
 
     <div class=" rounded admin-control container bg-light shadow">
         <form action="" method="POST" class="form-group" id="post">
+            <input type="hidden" name="id" value="{{.Id}}">
             <input type="text" value="{{.Title}}" id="title" name="title" class="form-control">
             <textarea name="content" id="content" cols="100" rows="8" class="mt-4 form-control">
 {{range .Verses}}{{.}}{{end}}</textarea>

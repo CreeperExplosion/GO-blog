@@ -12,3 +12,7 @@ body {
 .btn {
     max-height: 2.5em;
 }
+
+.hidden-form {
+    size: 0;
+}
