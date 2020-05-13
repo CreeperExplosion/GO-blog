@@ -4,18 +4,18 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Algebra's Palace Admin Page</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
-    <link rel="stylesheet" href="/static/css/admin.css" />
+    <title>Edit</title>
+    <link rel="stylesheet" href="/static/css/admin.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/editlist.css">
 </head>
 
 <body>
     <!-- navbar -->
-
     <nav class="navbar navbar-light bg-light navbar-expand-md pb-4 pt-4 shadow fixed-top" style="opacity: 0.95;">
         <div class="container">
             <a class="navbar-brand mr-auto" href="/">
-                <img src="static/images/logo.png" class="d-inline-block mr-2" width="30" height="30" alt="" />
+                <img src="/static/images/logo.png" class="d-inline-block mr-2" width="30" height="30" alt="" />
                 <div class="d-inline-block mr-1">
                     Algebra's <span><b>PALACE</b></span>
                 </div>
@@ -31,6 +31,15 @@
                     <li class="nav-item ml-4">
                         <a href="#" class="nav-link">Feeling lucky</a>
                     </li>
+                    <li class="nav-item ml-4">
+                        <a href="#" class="nav-link">My GitHub</a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav">
+                    <li class="nav-item mr-4 ml-4">
+                        <a href="/admin" class="nav-link">Admin Page</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -45,7 +54,7 @@
                     <h1 class="font-weight-light">
                         Hello Admin,
                     </h1>
-                    <param class="font-weight-light"> Embrace Your Creativity !
+                    <param class="font-weight-light"> People make mistakes, no problem!
                     </p>
                 </div>
             </div>
@@ -54,15 +63,13 @@
 
     <div class=" rounded admin-control container bg-light shadow">
         <form action="" method="POST" class="form-group" id="post">
-            <input type="text" placeholder="Title Here" id="title" name="title" class="form-control">
-            <textarea name="content" id="content" cols="100" rows="8" class="mt-4 form-control" placeholder="Your Exciting Work Here!"></textarea>
+            <input type="text" value="{{.Title}}" id="title" name="title" class="form-control">
+            <textarea name="content" id="content" cols="100" rows="8" class="mt-4 form-control">
+{{range .Verses}}{{.}}{{end}}</textarea>
 
             <div class="row ml-2 mr-2 mb-2">
-                <button form="post" type="submit" class="btn btn-primary mt-3 col-12 col-md-3">Post</button>
+                <button form="post" type="submit" class="btn btn-primary mt-3 col-12 col-md-3">Edit</button>
                 <div class="col-md-5 col-lg-6"></div>
-                <button form="editform" type="submit" class="btn btn-outline-secondary col-12 col-md-4 col-lg-3 mt-3">
-                        Edit posts</button>
-
             </div>
         </form>
         <form id="editform" action="admin/edit" method="get" class="p-0 m-0">
@@ -70,13 +77,9 @@
     </div>
     </div>
 
-
-
-
-
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js " integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n " crossorigin="anonymous "></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js " integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo " crossorigin="anonymous "></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js " integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6 " crossorigin="anonymous "></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>
 
 </html>

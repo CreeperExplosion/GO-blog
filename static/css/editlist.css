@@ -1,0 +1,14 @@
+body {
+    margin: 0;
+    height: 100%;
+}
+
+.masthead {
+    height: 15vh;
+    min-height: 70px;
+    margin-top: 10em;
+}
+
+.btn {
+    max-height: 2.5em;
+}

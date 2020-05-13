@@ -36,7 +36,7 @@ func ReadComments(id string, database *sql.DB) (*[]Comment, error) {
 	queryCommand := fmt.Sprintf("SELECT display_name, text FROM comments WHERE content_id='%s' ORDER BY id DESC", id)
 
 	query, err := database.Query(queryCommand)
-	
+
 	if err != nil {
 		fmt.Println(err)
 		return &comments, err
@@ -51,6 +51,16 @@ func ReadComments(id string, database *sql.DB) (*[]Comment, error) {
 	}
 
 	return &comments, err
+}
+
+func DeleteComments(content_id string, database *sql.DB) {
+	queryCommand := `DELETE FROM comments WHERE content_id = ?`
+
+	_, err := database.Exec(queryCommand, content_id)
+
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 type Comment struct {
