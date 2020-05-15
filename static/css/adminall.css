@@ -30,3 +30,7 @@ body {
 .btn-primary {
     min-width: 13em;
 }
+
+.square {
+    border-radius: 0 !important;
+}

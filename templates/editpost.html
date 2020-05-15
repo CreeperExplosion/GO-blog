@@ -7,7 +7,7 @@
     <title>Edit</title>
     <link rel="stylesheet" href="/static/css/admin.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="/static/css/editlist.css">
+    <link rel="stylesheet" href="/static/css/adminall.css">
 </head>
 
 <body>
@@ -31,15 +31,6 @@
                     <li class="nav-item ml-4">
                         <a href="#" class="nav-link">Feeling lucky</a>
                     </li>
-                    <li class="nav-item ml-4">
-                        <a href="#" class="nav-link">My GitHub</a>
-                    </li>
-                </ul>
-
-                <ul class="navbar-nav">
-                    <li class="nav-item mr-4 ml-4">
-                        <a href="/admin" class="nav-link">Admin Page</a>
-                    </li>
                 </ul>
             </div>
         </div>
@@ -52,31 +43,54 @@
             <div class="row">
                 <div class="col-12 text-center">
                     <h1 class="font-weight-light">
-                        Hello Admin,
+                        No Worries,
                     </h1>
-                    <param class="font-weight-light"> People make mistakes, no problem!
+                    <param class="font-weight-light"> Rewriting makes perfect !
                     </p>
                 </div>
             </div>
         </div>
     </header>
 
-    <div class=" rounded admin-control container bg-light shadow">
-        <form action="" method="POST" class="form-group" id="post">
-            <input type="hidden" name="id" value="{{.Id}}">
-            <input type="text" value="{{.Title}}" id="title" name="title" class="form-control">
-            <textarea name="content" id="content" cols="100" rows="8" class="mt-4 form-control">
-{{range .Verses}}{{.}}{{end}}</textarea>
 
-            <div class="row ml-2 mr-2 mb-2">
-                <button form="post" type="submit" class="btn btn-primary mt-3 col-12 col-md-3">Edit</button>
-                <div class="col-md-5 col-lg-6"></div>
-            </div>
-        </form>
-        <form id="editform" action="admin/edit" method="get" class="p-0 m-0">
-        </form>
+    <div class="container shadow p-0 rounded">
+
+        <ul class=" container-fluid nav nav-tabs bg-light">
+            <li class="nav-item">
+                <a class="nav-link" href="/admin">Write Post</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/edit">Your Posts</a>
+            </li>
+
+            <li class="nav-item">
+                <a href="#" class="nav-link active">Post #{{.Id}}</a>
+            </li>
+        </ul>
+
+        <div class=" rounded admin-control container-fluid bg-white">
+            <form action="" method="POST" class="form-group" id="post">
+                <input type="hidden" name="id" value="{{.Id}}">
+                <input type="text" value="{{.Title}}" id="title" name="title" class="form-control">
+                <textarea name="content" id="content" cols="100" rows="8" class="mt-4 form-control">
+    {{range .Verses}}{{.}}{{end}}</textarea>
+
+                <div class="row ml-2 mr-2 mb-2">
+                    <button form="post" type="submit" class="btn btn-primary mt-3 col-12 col-md-3">Edit</button>
+                    <div class="col-md-5 col-lg-6"></div>
+                </div>
+            </form>
+            <form id="editform" action="admin/edit" method="get" class="p-0 m-0">
+            </form>
+        </div>
     </div>
+
     </div>
+
+
+
+
+
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

@@ -42,9 +42,9 @@
             <div class="row">
                 <div class="col-12 text-center">
                     <h1 class="font-weight-light">
-                        Hello Admin,
+                        Are you 100% sure?
                     </h1>
-                    <param class="font-weight-light"> Embrace Your Creativity !
+                    <param class="font-weight-light"> There's no going back!
                     </p>
                 </div>
             </div>
@@ -56,27 +56,35 @@
     <div class="container shadow p-0 rounded">
         <ul class="nav container-fuild nav-tabs bg-light">
             <li class="nav-item">
-                <a class="nav-link active" href="#">Write Post</a>
+                <a class="nav-link" href="/admin">Write Post</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="admin/edit">Your Posts</a>
+                <a class="nav-link" href="/admin/edit">Your Posts</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link active">Delete #{{.Id}}?</a>
             </li>
         </ul>
 
-        <div class=" admin-control container-fluid bg-white shadow">
+        <div class=" delete-control container-fluid bg-white shadow">
+            <div class="container text-md-center">
+                <h5>Are you sure?</h5>
+                <p class="font-weight-light">You want to delete your work titled:
+                    <strong class="font-weight-bold">{{.Title}}</strong> ?
+                </p>
 
+            </div>
+            <div class="container-fluid align-bottom text-center">
 
-            <form action="" method="POST" class="form-group" id="post">
-                <input type="text" placeholder="Title Here" id="title" name="title" class="form-control">
-                <textarea name="content" id="content" cols="100" rows="8" class="mt-4 form-control" placeholder="Your Exciting Work Here!"></textarea>
-
-                <div class="row ml-2 mr-2 mb-2">
-                    <button form="post" type="submit" class="btn btn-primary mt-3 col-12 col-md-3">Post</button>
-                    <div class="col-md-5 col-lg-6"></div>
-
-                </div>
-            </form>
-            </form>
+                <form action="" method="POST" class="form-group mt-5 p-3" id="post">
+                    <div class="btn-group">
+                        <input type="hidden" name="id" id="id" value="{{.Id}}">
+                        <a href="/admin/edit" class="btn btn-primary"> No</a>
+                        <div class=""></div>
+                        <button type="submit" class="btn btn-light square">YES</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -88,5 +96,9 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js " integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo " crossorigin="anonymous "></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js " integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6 " crossorigin="anonymous "></script>
 </body>
+
+</html>
+
+</html>
 
 </html>
